@@ -1,10 +1,11 @@
 # myapp.rb
 require 'sinatra'
+require 'sinatra/content_for'
 require "sinatra/reloader" if development?
 require_relative 'igAPI'
 
 PIX_DIR = settings.public_folder + "/pix/"
-vote_hash = Hash.new
+vote_hash = Hash.new(0)
 
 
 helpers do
@@ -52,12 +53,8 @@ get '/vote_*/*/*' do |vote, this, that|
     return 500
   end
 
-  string = winner.to_s + loser.to_s
-  if vote_hash[string].is_a? Integer
-    vote_hash[string] += 1
-  else
-    vote_hash[string] = 1
-  end
+  string = "#{winner}#{loser}"
+  vote_hash[string] += 1
 
   redirect "/#{this}/vs/#{that}"
 end
