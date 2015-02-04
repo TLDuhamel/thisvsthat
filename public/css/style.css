@@ -1,0 +1,29 @@
+
+
+#this {
+  background-color: #FCD9DF;
+
+}
+
+#that {
+  background-color: #D9FCF6;
+}
+
+.thisthat {
+  /*border: solid;
+  border-width: 1px;*/
+  padding: 5%;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.thisthat h2 {
+  text-transform: bold;
+  margin-top: 0;
+  text-align: center;
+}
+
+#vs {
+  text-align: center;
+}

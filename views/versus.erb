@@ -1,0 +1,29 @@
+
+  <div class="container">
+  <div class="row">
+
+<section id="vs" class="col-xs-12 col-sm-push-5 col-sm-2">
+  <h3 class="hidden-xs">VS</h3>
+  <h4><%= this_votes%> -- <%= that_votes %> </h4>
+</section>
+
+<div class="col-xs-6 col-sm-pull-2 col-sm-5" />
+<a href="/vote_this/<%= this %>/<%= that %>">
+  <section id="this" class="thisthat" >
+    <h2><%= this.upcase %></h2>
+     <img src="<%= this_img %>" class="img-responsive img-rounded"/>
+  </section>
+</a>
+  </div>
+
+<div class="col-xs-6 col-sm-5">
+<a href="/vote_that/<%= this %>/<%= that %>">
+  <section id="that" class="thisthat">
+    <h2><%= that.upcase %></h2>
+      <img src="<%= that_img %>" class="img-responsive img-rounded"/>
+  </section>
+</a>
+
+  </div>
+  </div>
+  </div>
