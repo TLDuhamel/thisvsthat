@@ -3,8 +3,21 @@ require 'sinatra'
 require "sinatra/reloader" if development?
 require_relative 'igAPI'
 
-pix_dir = settings.public_folder + "/pix/"
+PIX_DIR = settings.public_folder + "/pix/"
 vote_hash = Hash.new
+
+
+helpers do
+  def get_this_that_img_url (thisthat)
+    if File.exist?(PIX_DIR + thisthat +".jpg")
+      this_img = url("/pix/" + thisthat +".jpg")
+    elsif (imgsrc = get_fullres_url_of_recent_instagram_of(thisthat))
+      this_img = imgsrc
+    else
+      this_img = "http://www.clker.com/cliparts/Z/Z/S/Y/S/w/red-circle-cross-transparent-background-hi.png"
+    end
+  end
+end
 
 get '/' do
   erb :home
@@ -12,22 +25,8 @@ end
 
 get '/*/vs/*' do |this, that|
 
-  if File.exist?(pix_dir + this +".jpg")
-    this_img = url("/pix/" + this +".jpg")
-  elsif (imgsrc = get_fullres_url_of_recent_instagram_of(this))
-    this_img = imgsrc
-  else
-    this_img = "http://www.clker.com/cliparts/Z/Z/S/Y/S/w/red-circle-cross-transparent-background-hi.png"
-  end
-
-  if File.exist?(pix_dir + that +".jpg")
-    that_img = url("/pix/" + that +".jpg")
-  elsif (imgsrc = get_fullres_url_of_recent_instagram_of(that)) 
-    that_img = imgsrc
-  else 
-    that_img = "http://www.clker.com/cliparts/Z/Z/S/Y/S/w/red-circle-cross-transparent-background-hi.png"
-  end 
-
+  this_img = get_this_that_img_url(this)
+  that_img = get_this_that_img_url(that)
 
   this_that_hash = {
     :this => this, 
