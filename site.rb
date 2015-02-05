@@ -3,19 +3,22 @@ require 'sinatra'
 require 'sinatra/content_for'
 require "sinatra/reloader" if development?
 require_relative 'igAPI'
+require_relative 'googleImage'
 
 PIX_DIR = settings.public_folder + "/pix/"
 vote_hash = Hash.new(0)
 
 
 helpers do
-  def get_this_that_img_url (thisthat)
+  def get_this_that_img_url (thisthat, color)
     if File.exist?(PIX_DIR + thisthat +".jpg")
-      this_img = url("/pix/" + thisthat +".jpg")
+      url("/pix/" + thisthat +".jpg")
+    elsif (imgsrc = get_top_google_image_for(thisthat, color))
+      imgsrc.uri
     elsif (imgsrc = get_fullres_url_of_recent_instagram_of(thisthat))
-      this_img = imgsrc
+      imgsrc
     else
-      this_img = "http://www.clker.com/cliparts/Z/Z/S/Y/S/w/red-circle-cross-transparent-background-hi.png"
+      "http://www.clker.com/cliparts/Z/Z/S/Y/S/w/red-circle-cross-transparent-background-hi.png"
     end
   end
 end
@@ -26,8 +29,8 @@ end
 
 get '/*/vs/*' do |this, that|
 
-  this_img = get_this_that_img_url(this)
-  that_img = get_this_that_img_url(that)
+  this_img = get_this_that_img_url(this, "orange")
+  that_img = get_this_that_img_url(that, "teal")
 
   this_that_hash = {
     :this => this, 
